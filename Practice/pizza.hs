@@ -1,9 +1,11 @@
 import Data.Char
-import Data.Text.IO
+import Data.List
 
 data Cell = Tomato | Mushroom
+  deriving(Show)
 
 data Pizza = Pizza [[Cell]] R C Min Max 
+  deriving(Show)
 
 type Max = Int
 type Min = Int
@@ -12,35 +14,40 @@ type C = Int
 
 data Slices = Slices [((R,C),(R,C))]
 
-test = readFile "pizza.txt"
-{-
-pizzaParser :: FilePath -> IO Pizza
-pizzaParser file = 
-	do 
-	  text <- (readFile file :: String)
-	  (row : _ : col: _ : mi : _ : ma : _ : contents) <- (text :: String)
-	  mi' <- digitToInt mi
-   	ma' <- digitToInt ma
-    let rows = digitToInt row
-    let col' = digitToInt col
-    let cells =  pizzaParser' contents [[]]
-	return (Pizza cells row' col' mi' ma')
-	  whereo
-    	pizzaParser' :: String -> [[Cell]] -> [[Cell]]
-    	pizzaParser' ('\n':xs) ys = pizzaParser' xs (ys:[])
--}
-
-
-readPizzaFile :: FilePath -> IO (String, String)
+readPizzaFile :: FilePath -> IO Pizza
 readPizzaFile path =
-  do  (header : content) <- splitOn "\n" $ readFile path
-      (row, col, min', max') <- parseHeader parseHeader
-      cells <- map (map toCell) content
-      return Pizza cells row col min' max'
+  do  text <- readFile path
+      let {(header : content) = lines text;
+           (row : col : min' : max' : []) = parseHeader header;
+           cells = map (map toCell) content}
+      return (Pizza cells row col min' max')
       where
-        parseHeader :: String -> (Int, Int, Int, Int)
-        parseHeader ((r : _ : c: _ : mi : _ : ma : xs) = map (\s -> digitToInt s) (r:c:mi:ma)
+        parseHeader :: String -> [Int]
+        parseHeader (r : _ : c: _ : mi : _ : ma : xs) = map (\s -> digitToInt s) (r:c:mi:ma:[])
+        parseHeader s = error(s)
         toCell 'T' = Tomato
         toCell 'M' = Mushroom
+
+leastAmount :: Pizza -> Cell
+leastAmount (Pizza cells _ _ _ _) | leastAmountHelp cells >= 1 = Tomato
+                                  | otherwise = Mushroom
+  where
+    leastAmountHelp :: [[Cell]] -> Int
+    leastAmountHelp cells = foldl (+) 0 (map mapCell (concat cells))
+
+    mapCell :: Cell -> Int
+    mapCell Tomato = 1
+    mapCell Mushroom = (-1)
+
+
+
+
+
+--main :: FilePath ->  IO
+--main path = do
+  --  let {pizza = readPizzaFile path;
+      --   }
+    --return
+
 
  
