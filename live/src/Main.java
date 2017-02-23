@@ -13,5 +13,6 @@ public class Main {
 		System.out.println(args[0]);
 		World world = utilen.parseWorld(Paths.get(args[0]));
 		world.printWorld();
+		utilen.printToFile(world,args[1]);
 	}
 }

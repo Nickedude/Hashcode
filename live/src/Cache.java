@@ -1,11 +1,11 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by gusrod on 2017-02-23.
  */
 public class Cache {
 
+	HashSet<Endpoint> endpoints;
     int freeSpace;
     List<Video> videos = new ArrayList<Video>();
 

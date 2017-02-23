@@ -29,7 +29,7 @@ public class Util {
 
             for (int i = 0; i < nrofvideos; i++) {
                 int size = Integer.parseInt(secondLine[i]);
-                videos.add(new Video(size));
+                videos.add(new Video(size,i));
             }
 
             lines.remove(0);
@@ -88,11 +88,28 @@ public class Util {
         return null;
     }
 
-    public void printToFile (String path) {
+    public void printToFile (World w, String path) {
         try {
             PrintWriter out = new PrintWriter(path);
-            out.println("Stuff");
-            out.println("More stuff");
+            int nr = 0;
+            List<String> cstrs = new ArrayList<>();
+
+            for(int i = 0; i < w.nrOfCaches; i++) {             //Iterate through all caches
+                Cache c = w.caches.get(i);                      //Get next cache
+                if(c.videos.size() != 0) {                      //If it's used
+                    nr++;                               
+                    String s = i +" ";                          //Start building a string
+                    for(int j = 0; j < c.videos.size(); j++) {  //Loop through all it's videos
+                        s = s + c.videos.get(i).id + " ";       //Add the video it uses to the string
+                    }
+                }
+            }
+
+            out.println(nr);
+            for(int i = 0; i < cstrs.size(); i++) {
+                out.println(cstrs.get(i));
+            }
+
             out.close();
         }
         catch(FileNotFoundException e) {
