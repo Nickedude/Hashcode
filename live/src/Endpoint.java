@@ -1,12 +1,13 @@
 import java.util.*;
 
 public class Endpoint {
-	List<Integer> caches;
-	Map<Integer,Integer> cacheLatMap;
+	Map<Cache,Integer> cacheLatMap;
 	int latDatacenter;
+	int nrofcaches;
 
-	public Endpoint () {
-		cacheLatMap = new HashMap<Integer,Integer>();
-		caches = new ArrayList<Integer>();
+	public Endpoint (int ld, int ncs) {
+		latDatacenter = ld;
+		nrofcaches = ncs;
+		cacheLatMap = new HashMap<Cache,Integer>();
 	}
 }

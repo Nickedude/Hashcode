@@ -1,15 +1,21 @@
+import java.util.*;
+
 public class World {
 	int videos;
-	int endpoints;
-	int caches;
+	int nrOfEndpoints;
+	int nrOfCaches;
 	int cacheCapacity;
-	int requests;
+	int nrOfRequests;
+	List<Endpoint> endpoints;
+	List<Cache> caches;
 
-	public World (int v, int e , int c, int cc, int rs) {
+	public World (int v, int e , int c, int cc, int rs, List<Endpoint> es, List<Cache> cs) {
 		videos = v;
-		endpoints = e;
-		caches = c;
+		nrOfEndpoints = e;
+		nrOfCaches = c;
 		cacheCapacity = cc;
-		requests = rs;
+		nrOfRequests = rs;
+		caches = cs;
+		endpoints = es;
 	}
 }
