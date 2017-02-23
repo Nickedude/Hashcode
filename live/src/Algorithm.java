@@ -46,15 +46,13 @@ public class Algorithm {
                 queue.add(next);
             }
         }
-
-
     }
 
     private int calculateScore(VidCachePair pair) {
         int timesaved = 0;
 
         for(Endpoint point : pair.vid.requests.keySet() ) {
-            if(!coveredEndpoints.containsKey(point)) {
+            if(!coveredEndpoints.get(pair.vid).contains(point)) {
                 timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point);
             }
         }
