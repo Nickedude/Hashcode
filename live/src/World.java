@@ -26,5 +26,8 @@ public class World {
 		System.out.println(nrOfEndpoints);
 		System.out.println(nrOfCaches);
 		System.out.println(nrOfRequests);
+		for(int i = 0; i < endpoints.size(); i++) {
+			System.out.println(endpoints.get(i).latDatacenter);
+		}
 	}
 }
