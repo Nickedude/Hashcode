@@ -20,4 +20,11 @@ public class World {
 		endpoints = es;
 		videos = vids;
 	}
+
+	public void printWorld () {
+		System.out.println(nrOfvideos);
+		System.out.println(nrOfEndpoints);
+		System.out.println(nrOfCaches);
+		System.out.println(nrOfRequests);
+	}
 }

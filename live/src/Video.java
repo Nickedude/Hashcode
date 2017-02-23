@@ -6,13 +6,13 @@ import java.util.Map;
  */
 public class Video {
     int size;
-    Map<Integer, Integer> requests = new HashMap<>();
+    Map<Endpoint, Integer> requests = new HashMap<>();	
 
     public Video(int size) {
         this.size = size;
     }
 
-    public void addRequest(int endpoint, int n) {
+    public void addRequest(Endpoint endpoint, int n) {
         requests.put(endpoint, n);
     }
 
