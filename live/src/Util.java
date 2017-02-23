@@ -74,10 +74,9 @@ public class Util {
 
             	Endpoint ep = endpoints.get(epId);							//Get the ep that generates the req
             	videos.get(vidId).requests.put(ep,reqs);					//Get the video and it's map, put the ep and the nr of requests
-
-                System.out.println("Parse successfull!");
-                return new World(nrofvideos,nrofendpoints,nrofcaches,cachesize,nrofrequests,endpoints,idToCache,videos);
             }
+            System.out.println("Parse successfull!");
+            return new World(nrofvideos,nrofendpoints,nrofcaches,cachesize,nrofrequests,endpoints,idToCache,videos);
 
         } catch (FileNotFoundException e) {
             System.out.println("Couldn't read file: " + filepath);
