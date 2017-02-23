@@ -3,12 +3,12 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main (String args[]) {
-        Pizza pizza = new Pizza(Paths.get("small.in"));
-        pizza.calculateSlices();
+        Pizza pizza = new Pizza(Paths.get("medium.in"));
+        pizza.calculateSlices2();
         pizza.printHeader();
-        pizza.printCells();
+        //pizza.printCells();
         pizza.printSlices();
-        pizza.printOccupied();
+        //pizza.printOccupied();
         pizza.pizzaToFile("result.txt");
 
     }

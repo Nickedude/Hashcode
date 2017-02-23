@@ -19,10 +19,11 @@ public class Pizza {
         try {
             List<String> lines = Files.lines(filepath, StandardCharsets.UTF_8).collect(Collectors.toList());
 
-            rows = Character.getNumericValue(lines.get(0).charAt(0));
-            columns = Character.getNumericValue(lines.get(0).charAt(2));
-            maxSize = Character.getNumericValue(lines.get(0).charAt(6));
-            minCont = Character.getNumericValue(lines.get(0).charAt(4));
+            String[] firstLine = lines.get(0).split("[\\s]");
+            rows = Integer.parseInt(firstLine[0]);
+            columns = Integer.parseInt(firstLine[1]);
+            maxSize = Integer.parseInt(firstLine[3]);
+            minCont = Integer.parseInt(firstLine[2]);
 
             lines.remove(0);
 
@@ -46,6 +47,86 @@ public class Pizza {
         if (c == 'T')
             return Cell.TOMATO;
         return Cell.MUSHROOM;
+    }
+
+    public void calculateSlices2() {
+        Cell minType = leastOccuring();
+        int slicecounter = 0;
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                if(cells[r][c] == minType) {
+                    Slice temp = new Slice(r, c, r, c, slicecounter);
+                    Slice newtemp;
+                    int i = slices.size();
+                    slices.add(temp);
+
+                    newtemp = expandLeft3(temp);
+
+                    if(isValidSliceArea(newtemp)) {
+                        temp = newtemp;
+
+                        if(isValidSlice(temp)) {
+                            slices.set(i,temp);
+                            markOccupied(temp);
+                            System.out.println("Added");
+                        }
+                        
+                    }
+                  
+                    newtemp = expandRight3(temp);
+                
+                    if(isValidSliceArea(newtemp)) {
+                        temp = newtemp;
+
+                        if(isValidSlice(temp)) {
+                            slices.set(i,temp);
+                            markOccupied(temp);
+                            System.out.println("Added");
+                        }
+                    }
+
+                    newtemp = expandUp2(temp);
+
+                    if(isValidSliceArea(newtemp)) {
+                        temp = newtemp;
+
+                        if(isValidSlice(temp)) {
+                            slices.set(i,temp);
+                            markOccupied(temp);
+                            System.out.println("Added");
+                        }
+                    }
+                    
+                    newtemp = expandDown2(temp);
+
+                    if(isValidSliceArea(newtemp)) {
+                        temp = newtemp;
+
+                        if(isValidSlice(temp)) {
+                            slices.set(i,temp);
+                            markOccupied(temp);
+                            System.out.println("Added");
+                        }
+                    }
+
+                    if(!isValidSlice(slices.get(i))) {
+                        slices.remove(i);
+                    }
+
+
+                    /*if(isValidSlice(temp)) {
+                        System.out.println("Added");
+                        slices.add(temp);
+                        markOccupied(temp);
+                    }*/
+
+                    markOccupied(temp);     //Mark this spot as taken
+                    slicecounter++;
+                }
+            }
+        }
+
     }
 
     public void calculateSlices () {
@@ -76,7 +157,7 @@ public class Pizza {
             }
         }
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10000; i++) {
             Slice prospect = getProspect(leastOccuring());  //Get a prospect for a new slice starting in a cell of the least occuring type
             if(prospect == null)                            //No new slices could be placed
                 break;
@@ -173,14 +254,12 @@ public class Pizza {
                 Slice newtemp;
                 newtemp = expandLeft(temp);
                 if(isValidSliceArea(newtemp)) {
-                    System.out.println("left");
                     temp = newtemp;
                 }
                 
                 newtemp = expandRight(temp);
                 
                 if(isValidSliceArea(newtemp)) {
-                    System.out.println("right");
                     temp = newtemp;
                 }
 
@@ -252,9 +331,36 @@ public class Pizza {
             for(int i = temp.r1; i < temp.r2+1; i++) {
                 if(occupied[i][temp.c1-1] != -1)
                     return s;
-                    System.out.println("Stopped expanding " + s.slicenmbr + " at " + i + "," + (temp.c1-1));
             }
             temp.c1--;
+        }
+        return temp;
+    }
+
+    private Slice expandLeft3 (Slice s) {
+        Slice temp = new Slice(s);
+        int count = 0;
+        while(temp.c1-1 > -1 && count < maxSize) {
+            for(int i = temp.r1; i < temp.r2+1; i++) {
+                if(occupied[i][temp.c1-1] != -1)
+                    return s;
+            }
+            temp.c1--;
+            count++;
+        }
+        return temp;
+    }
+
+    private Slice expandRight3 (Slice s) {
+        Slice temp = new Slice(s);
+        int count = 0;
+        while(temp.c2+1 < columns && count < maxSize) {
+            for(int i = temp.r1; i < temp.r2+1; i++) {
+                if(occupied[i][temp.c2+1] != -1)
+                    return s;
+            }
+            temp.c2++;
+            count++;
         }
         return temp;
     }
@@ -281,6 +387,23 @@ public class Pizza {
     }
 
     //Expands a slice upwards
+    private Slice expandUp2 (Slice s) {
+        Slice temp = new Slice(s);
+        int count = 0;
+        while(temp.r1-1 > -1 && count < maxSize) {                  //Check if one row upwards is within bounds
+            for(int i = temp.c1; i < temp.c2+1; i++) {  //For all columns in the possible expansion
+                if(occupied[temp.r1-1][i] != -1)         //Check that they're available
+                    return s;                       //If not, return
+            }                                       //If we made it through the previous loop all the cells are available
+            temp.r1--;                              //Expand;
+            count++;
+        }
+
+        return temp;
+    }
+
+
+    //Expands a slice upwards
     private Slice expandUp (Slice s) {
         Slice temp = new Slice(s);
         while(temp.r1-1 > -1) {                  //Check if one row upwards is within bounds
@@ -293,6 +416,22 @@ public class Pizza {
 
         return temp;
     }
+
+    private Slice expandDown2 (Slice s) {
+        Slice temp = s;
+        int count = 0;
+        while(temp.r2+1 < rows && count < maxSize) {                  //Check if one row upwards is within bounds
+            for(int i = temp.c1; i < temp.c2+1; i++) {  //For all columns in the possible expansion
+                if(occupied[temp.r2+1][i] != -1)         //Check that they're available
+                    return s;                       //If not, return
+            }                                       //If we made it through the previous loop all the cells are available
+            temp.r2++;                              //Expand;
+            count++;
+        }
+
+        return temp;
+    }
+
 
     private Slice expandDown (Slice s) {
         Slice temp = s;
