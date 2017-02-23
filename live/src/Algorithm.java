@@ -22,6 +22,7 @@ public class Algorithm {
     private void init() {
         for (Video vid : world.videos) {
             coveredEndpoints.put(vid,new HashSet<Endpoint>());
+
             queue.add(getBestCachePair(vid));
         }
         System.out.println("Init ok!");
@@ -52,14 +53,11 @@ public class Algorithm {
     private int calculateScore(VidCachePair pair) {
         int timesaved = 0;
 
-        for (Endpoint point : world.endpoints) {
-
-            if(!coveredEndpoints.get(pair.vid).contains(point)) {
-                timesaved += pair.cache.savedTime(point);
-            }
+        for(Endpoint point : pair.vid.requests.keySet() ) {
+            timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point);
         }
 
-        return (timesaved * 1000 );
+        return (timesaved);
     }
 
     private VidCachePair getBestCachePair(Video vid) {
