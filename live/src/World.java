@@ -7,9 +7,9 @@ public class World {
 	int cacheCapacity;
 	int nrOfRequests;
 	List<Endpoint> endpoints;
-	List<Cache> caches;
+	Map<Integer,Cache> caches;
 
-	public World (int v, int e , int c, int cc, int rs, List<Endpoint> es, List<Cache> cs) {
+	public World (int v, int e , int c, int cc, int rs, List<Endpoint> es, Map<Integer,Cache> cs) {
 		videos = v;
 		nrOfEndpoints = e;
 		nrOfCaches = c;
