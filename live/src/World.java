@@ -26,8 +26,18 @@ public class World {
 		System.out.println(nrOfEndpoints);
 		System.out.println(nrOfCaches);
 		System.out.println(nrOfRequests);
+		System.out.println("Printing endpoints");
 		for(int i = 0; i < endpoints.size(); i++) {
 			System.out.println(endpoints.get(i).latDatacenter);
 		}
+		System.out.println("Printing videos");
+		for(int i = 0; i < videos.size(); i++) {
+			System.out.println(videos.get(i).id);
+		}
+		System.out.println("Printing caches");
+		for(Cache c : caches.values()) {
+			System.out.println(c.freeSpace);
+		}
+		System.out.println("The end");
 	}
 }

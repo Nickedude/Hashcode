@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,8 +10,7 @@ public class Algorithm {
 
     private World world;
 
-    private HashMap<Video, HashSet<Endpoint>> coveredEndpoints;
-    private HashMap<VidCachePair, Integer> scores;
+    private HashMap<Video, HashSet<Endpoint>> coveredEndpoints = new HashMap<>();
     private Comparator<VidCachePair> comparator = new Distance();
 
     private PriorityQueue<VidCachePair> queue = new PriorityQueue<>(comparator);
@@ -24,12 +21,10 @@ public class Algorithm {
 
     private void init() {
         for (Video vid : world.videos) {
-            for (Cache cache : world.caches.values()) {
-                VidCachePair pair = new VidCachePair(vid, cache);
-                scores.put(pair, calculateScore(pair));
-            }
+            coveredEndpoints.put(vid,new HashSet<Endpoint>());
             queue.add(getBestCachePair(vid));
         }
+        System.out.println("Init ok!");
 
     }
 
@@ -37,6 +32,7 @@ public class Algorithm {
         init();
 
         while(!queue.isEmpty()) {
+            System.out.println(queue.size());
             VidCachePair top = queue.poll();
             if(top.cache.videoFits(top.vid) && top.score > 0) {
                 top.cache.addVideo(top.vid);
@@ -45,7 +41,7 @@ public class Algorithm {
                 }
             }
             VidCachePair next = getBestCachePair(top.vid);
-            if(next.score > 0) {
+            if(next.score > 0 && next.cache.videoFits(next.vid)) {
                 queue.add(next);
             }
         }
@@ -63,7 +59,7 @@ public class Algorithm {
             }
         }
 
-        return (timesaved * 1000 ) / pair.vid.size;
+        return (timesaved * 1000 );
     }
 
     private VidCachePair getBestCachePair(Video vid) {

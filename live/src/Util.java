@@ -57,7 +57,7 @@ public class Util {
             		}
 
             		Cache c = idToCache.get(cacheid);						//Get the cache in question
-                    c.endpoints.put(temp);                                  //Make this cache aware of what endpoint is connected to it
+                    c.endpoints.add(temp);                                  //Make this cache aware of what endpoint is connected to it
             		int lat = Integer.parseInt(cacheLine[1]);				//Read the latency to this cache
             		temp.cacheLatMap.put(c,lat);							//Save the latency to this cache for this endpoint
             		lines.remove(0);
@@ -75,6 +75,7 @@ public class Util {
             	Endpoint ep = endpoints.get(epId);							//Get the ep that generates the req
             	videos.get(vidId).requests.put(ep,reqs);					//Get the video and it's map, put the ep and the nr of requests
 
+                System.out.println("Parse successfull!");
                 return new World(nrofvideos,nrofendpoints,nrofcaches,cachesize,nrofrequests,endpoints,idToCache,videos);
             }
 
@@ -101,8 +102,9 @@ public class Util {
                     nr++;                               
                     String s = i +" ";                          //Start building a string
                     for(int j = 0; j < c.videos.size(); j++) {  //Loop through all it's videos
-                        s = s + c.videos.get(i).id + " ";       //Add the video it uses to the string
+                        s = s + c.videos.get(j).id + " ";       //Add the video it uses to the string
                     }
+                    cstrs.add(s);
                 }
             }
 

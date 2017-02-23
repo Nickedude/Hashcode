@@ -10,9 +10,11 @@ public class Main {
 	public static void main (String[] args) {
 		System.out.println("Hello world!");
 		Util utilen = new Util();
-		System.out.println(args[0]);
 		World world = utilen.parseWorld(Paths.get(args[0]));
 		world.printWorld();
+
+		Algorithm alg = new Algorithm(world);
+		alg.calculate();
 		utilen.printToFile(world,args[1]);
 	}
 }
