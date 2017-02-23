@@ -35,7 +35,7 @@ public class Algorithm {
         while(!queue.isEmpty()) {
             System.out.println(queue.size());
             VidCachePair top = queue.poll();
-            if(top.cache.videoFits(top.vid) && top.score > 0) {
+            if(top.cache.videoFits(top.vid) && top.score > 0 && !top.cache.videos.contains(top.vid)) {
                 top.cache.addVideo(top.vid);
                 for (Endpoint point: top.cache.endpoints) {
                     coveredEndpoints.get(top.vid).add(point);
@@ -54,7 +54,9 @@ public class Algorithm {
         int timesaved = 0;
 
         for(Endpoint point : pair.vid.requests.keySet() ) {
-            timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point);
+            if(!coveredEndpoints.containsKey(point)) {
+                timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point);
+            }
         }
 
         return (timesaved);
