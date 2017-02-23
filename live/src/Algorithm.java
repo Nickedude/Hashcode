@@ -40,10 +40,13 @@ public class Algorithm {
             VidCachePair top = queue.poll();
             if(top.cache.videoFits(top.vid) && top.score > 0) {
                 top.cache.addVideo(top.vid);
-                for (Endpoint point: top.cache.enpoints) {
+                for (Endpoint point: top.cache.endpoints) {
                     coveredEndpoints.get(top.vid).add(point);
                 }
-                queue.add(getBestCachePair(top.vid));
+            }
+            VidCachePair next = getBestCachePair(top.vid);
+            if(next.score > 0) {
+                queue.add(next);
             }
         }
 
@@ -51,16 +54,16 @@ public class Algorithm {
     }
 
     private int calculateScore(VidCachePair pair) {
-        int score = 0;
+        int timesaved = 0;
 
         for (Endpoint point : world.endpoints) {
 
             if(!coveredEndpoints.get(pair.vid).contains(point)) {
-                score += pair.cache.savedTime(point);
+                timesaved += pair.cache.savedTime(point);
             }
         }
 
-        return score;
+        return (timesaved * 1000 ) / pair.vid.size;
     }
 
     private VidCachePair getBestCachePair(Video vid) {
