@@ -43,7 +43,7 @@ public class Util {
             	String[] epLine = lines.get(0).split("[\\s]");				//Read the line for this endpoint
             	int cachesconnected = Integer.parseInt(epLine[1]);	    	//Get the nr of caches connected to it
                 int ld = Integer.parseInt(epLine[0]);
-            	Endpoint temp = new Endpoint(ld,cachesconnected);	         //Create the endpoint
+            	Endpoint temp = new Endpoint(ld,cachesconnected);	        //Create the endpoint
                 endpoints.add(temp);
             	lines.remove(0);											//Remove this line
 
@@ -57,6 +57,7 @@ public class Util {
             		}
 
             		Cache c = idToCache.get(cacheid);						//Get the cache in question
+                    c.endpoints.put(temp);                                  //Make this cache aware of what endpoint is connected to it
             		int lat = Integer.parseInt(cacheLine[1]);				//Read the latency to this cache
             		temp.cacheLatMap.put(c,lat);							//Save the latency to this cache for this endpoint
             		lines.remove(0);
