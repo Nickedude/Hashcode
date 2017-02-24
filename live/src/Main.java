@@ -6,11 +6,11 @@ public class Main {
 	public static void main (String[] args) {
 		System.out.println("Hello world!");
 		Util utilen = new Util();
-		World world = utilen.parseWorld(Paths.get("kittens.in"));
+		World world = utilen.parseWorld(Paths.get(args[0]));
 		world.printWorld();
 
-		Algorithm alg = new Algorithm(world);
+		Algorithm2 alg = new Algorithm2(world);
 		alg.calculate();
-		utilen.printToFile(world,"kittenout.txt");
+		utilen.printToFile(world,args[1]);
 	}
 }
