@@ -45,6 +45,29 @@ public class Algorithm2 {
         }
     }
 
+    // Can only be used for me_at_the_zoo becouse it is so slow. The other input sets will not reacting in atleast 10 minutes.
+    // Will give a substantial boost for the zoo set though.
+    // TODO: make more efficient so it can be used for all sets
+    public void calculate2 () {
+        for (Video vid: world.videos ) {
+            for (Cache cache: world.caches.values()) {
+                for (Video vid2 : world.videos) {
+                    if(cache.videos.contains(vid2)) {
+                        int oldscore = world.score();
+                        if (cache.freeSpace + vid2.size - vid.size >= 0) {
+                            cache.removeVideo(vid2);
+                            cache.addVideo(vid);
+                            if (!(world.score() > oldscore)) {
+                                cache.removeVideo(vid);
+                                cache.addVideo(vid2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private int calculateScore(VidCachePair pair) {
         int timesaved = 0;
 
@@ -64,7 +87,8 @@ public class Algorithm2 {
         for (Cache cache: world.caches.values()) {                                              //Loop through all caches
             VidCachePair pair = new VidCachePair(vid, cache);                                   //Create a pair
             pair.score = calculateScore(pair);                                                  //Get the score for this pair. Will only get a score if it's not already covered.
-            if(best == null || pair.score >= best.score && pair.cache.videoFits(pair.vid)) {    //If we have no pair or if the score of this is better than the one we got
+            // Add !best.cache.videoFits(pair.vid) && pair.cache.videoFits(pair.vid) as a condition to increase the score of me_at_the_zoo and videos worth spreading
+            if(best == null ||  pair.score >= best.score && pair.cache.videoFits(pair.vid)) {    //If we have no pair or if the score of this is better than the one we got
                 best = pair;                                                                    //Update the pair
             }
         }
