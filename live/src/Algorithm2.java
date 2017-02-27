@@ -3,9 +3,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-/**
- * Created by gusrod on 2017-02-23.
- */
 public class Algorithm2 {
 
     private World world;
@@ -21,7 +18,7 @@ public class Algorithm2 {
 
     private void init() {
         for (Video vid : world.videos) {                        //Loop through all the videos
-            coveredEndpoints.put(vid,new HashSet<Endpoint>());  //Initialize a hash set for it's endpoints
+            coveredEndpoints.put(vid,new HashSet<>());  //Initialize a hash set for it's endpoints
 
             queue.add(getBestCachePair(vid));                   //Pair this video with a cache in the best way
         }
@@ -33,8 +30,8 @@ public class Algorithm2 {
         init();                                                                                                 //Initialize
 
         while(!queue.isEmpty()) {                                                                               //Continue until the queue is empty
-            System.out.println(queue.size());
-            VidCachePair top = queue.poll();                                                                    //Take the pair with the best score
+            //System.out.println(queue.size());
+            VidCachePair top = queue.poll(); //Take the pair with the best score
             if(top.cache.videoFits(top.vid) && top.score > 0) {                                                 //If the video fits in it's associated cache, it has a score and if the cache doesn't hold that video already
                 top.cache.addVideo(top.vid);                                                                    //Add the video to the cache
                 for (Endpoint point: top.cache.endpoints) {                                                     //Mark this video as covered for the endpoints connected to this cache
@@ -51,14 +48,14 @@ public class Algorithm2 {
     private int calculateScore(VidCachePair pair) {
         int timesaved = 0;
 
-        for(Endpoint point : pair.vid.requests.keySet() ) {                                 //Iterate over all endpoints requesting this video
+        for(Endpoint point : pair.vid.requests.keySet()) {                                  //Iterate over all endpoints requesting this video
             if(!coveredEndpoints.get(pair.vid).contains(point)) {                           //If this video isn't already covered for this endpoint
                 timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point);    //Then we could potentially save time, calculate the time
-                                                                                            //The time we could potentially save is the nr of requests 
+                                                                                            // The time we could potentially save is the nr of requests
             }                                                                               //times the difference in time between datacenter and cache server
         }
-
-        return (timesaved);
+        return timesaved;                                                                   //  All but trending_today runs better with => return timesaved * pair.vid.size
+                                                                                            // but trending_today is MUCH worse.;
     }
 
     private VidCachePair getBestCachePair(Video vid) {
