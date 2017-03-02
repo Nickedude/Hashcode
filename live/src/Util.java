@@ -72,12 +72,11 @@ public class Util {
             	lines.remove(0);
 
             	Endpoint ep = endpoints.get(epId);
-            	Integer noRequests = videos.get(vidId).requests.putIfAbsent(ep,reqs);;
-            	if(!(noRequests == null)) {
-                    videos.get(vidId).requests.put(ep,reqs + noRequests);					//Get the video and it's map, put the ep and the nr of requests
-                    //Get the ep that generates the req
-                }
+
+            	//videos.get(vidId).requests.put(ep, reqs);
+            	videos.get(vidId).addRequests(ep, reqs);
             }
+
             System.out.println("Parse successfull!");
             return new World(nrofvideos,nrofendpoints,nrofcaches,cachesize,nrofrequests,endpoints,idToCache,videos);
 

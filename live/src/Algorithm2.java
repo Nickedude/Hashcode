@@ -48,12 +48,13 @@ public class Algorithm2 {
     // Can only be used for me_at_the_zoo becouse it is so slow. The other input sets will not reacting in atleast 10 minutes.
     // Will give a substantial boost for the zoo set though.
     // TODO: make more efficient so it can be used for all sets
+    // O(V³ * C² * E)
     public void calculate2 () {
         for (Video vid: world.videos ) {
             for (Cache cache: world.caches.values()) {
                 for (Video vid2 : world.videos) {
                     if(cache.videos.contains(vid2)) {
-                        int oldscore = world.score();
+                        int oldscore = world.score(); // O(V*E*C)
                         if (cache.freeSpace + vid2.size - vid.size >= 0) {
                             cache.removeVideo(vid2);
                             cache.addVideo(vid);
@@ -99,7 +100,7 @@ public class Algorithm2 {
     private class Distance implements Comparator<VidCachePair> {
         @Override
         public int compare(VidCachePair a, VidCachePair b) {
-            return a.score - b.score;
+            return b.score - a.score;
         }
     }
 
