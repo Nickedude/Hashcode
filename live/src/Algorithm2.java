@@ -32,6 +32,11 @@ public class Algorithm2 {
         while(!queue.isEmpty()) {                                                                               //Continue until the queue is empty
             //System.out.println(queue.size());
             VidCachePair top = queue.poll(); //Take the pair with the best score
+            VidCachePair best = getBestCachePair(top.vid);
+            if(top.cache != best.cache) {
+                queue.add(best);
+                continue;
+            }
             if(top.cache.videoFits(top.vid) && top.score > 0) {                                                 //If the video fits in it's associated cache, it has a score and if the cache doesn't hold that video already
                 top.cache.addVideo(top.vid);                                                                    //Add the video to the cache
                 for (Endpoint point: top.cache.endpoints) {                                                     //Mark this video as covered for the endpoints connected to this cache
@@ -78,7 +83,7 @@ public class Algorithm2 {
                                                                                             // The time we could potentially save is the nr of requests
             }                                                                               //times the difference in time between datacenter and cache server
         }
-        return timesaved;                                                                   //  All but trending_today runs better with => return timesaved * pair.vid.size
+        return (int)(timesaved / pair.vid.size);                                                                   //  All but trending_today runs better with => return timesaved * pair.vid.size
                                                                                             // but trending_today is MUCH worse.;
     }
 
