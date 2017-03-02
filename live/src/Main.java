@@ -7,10 +7,10 @@ public class Main {
 		System.out.println("Hello world!");
 		Util utilen = new Util();
 		World world = utilen.parseWorld(Paths.get(args[0]));
-		world.printWorld();
-
+		//world.printWorld();
 		Algorithm2 alg = new Algorithm2(world);
 		alg.calculate();
+		alg.printFreeSpace();
 		utilen.printToFile(world,args[1]);
 	}
 }

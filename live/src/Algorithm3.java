@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 /**
  * Created by gusrod on 2017-02-23.
  */
-public class Algorithm2 {
+public class Algorithm3 {
 
     private World world;
 
@@ -15,7 +15,7 @@ public class Algorithm2 {
 
     private PriorityQueue<VidCachePair> queue = new PriorityQueue<>(comparator);    //Prio queue that delivers the pair with the best score
 
-    public Algorithm2(World world) {
+    public Algorithm3(World world) {
         this.world = world;
     }
 
@@ -78,6 +78,22 @@ public class Algorithm2 {
         for(Cache c : world.caches.values()) {
             System.out.print(c.freeSpace+", ");
         }
+    }
+
+    public void optimizeCalculate () {
+        for(Cache c : world.caches.values()) {                              //For each cache
+            HashSet<Endpoint> eps = new HashSet<>(c.endpoints);             //Get associated endpoints
+            HashSet<Video> vidsFromDc = new HashSet<>(); 
+        }
+        //For each cache
+        //Get the endpoints associated with it 
+        //Get the set of videos the endpoints currently needs to fetch from the datacenter
+        //Calculate the cost for watching each video and multiply it with the nr of requests
+        //Take score of the largest video on the fastest cache and investigate what the score
+        //could be if we were to replace it with several smaller videos which are now being
+        //streamed from the datacenter. Replace if benefitial.
+        //Do this for all videos and all caches.
+
     }
 
 
