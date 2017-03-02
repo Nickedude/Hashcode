@@ -1,9 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by gusrod on 2017-02-23.
- */
+
 public class Video {
 	int id;
     int size;
@@ -14,8 +12,9 @@ public class Video {
         this.id = id;
     }
 
-    public void addRequest(Endpoint endpoint, int n) {
-        requests.put(endpoint, n);
+    public void addRequests(Endpoint endpoint, int n) {
+        Integer no = requests.get(endpoint);
+        requests.put(endpoint, no == null ? n : no + n);
     }
 
 }

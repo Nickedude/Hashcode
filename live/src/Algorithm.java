@@ -58,7 +58,7 @@ public class Algorithm {
             }                                                                               //times the difference in time between datacenter and cache server
         }
 
-        return (timesaved);
+        return (timesaved*10000) / pair.vid.size;
     }
 
     private VidCachePair getBestCachePair(Video vid) {
