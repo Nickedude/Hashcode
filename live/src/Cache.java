@@ -1,8 +1,5 @@
 import java.util.*;
 
-/**
- * Created by gusrod on 2017-02-23.
- */
 public class Cache {
 
 	HashSet<Endpoint> endpoints = new HashSet<Endpoint>();
@@ -18,6 +15,13 @@ public class Cache {
         freeSpace -= vid.size;
     }
 
+    public void removeVideo(Video vid) {
+        if(videos.contains(vid)) {
+            videos.remove(vid);
+            freeSpace += vid.size;
+        }
+    }
+
     public boolean videoFits(Video vid) {
         return vid.size <= freeSpace;
     }
@@ -29,5 +33,6 @@ public class Cache {
             return 0;
         }
     }
+
 
 }

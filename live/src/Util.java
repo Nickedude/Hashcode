@@ -52,9 +52,8 @@ public class Util {
             		String[] cacheLine = lines.get(0).split("[\\s]");		//Read the line for this specific cache
             		int cacheid = Integer.parseInt(cacheLine[0]);			//Read cacheid
 
-            		if(idToCache.get(cacheid) == null) {					//If this cache doesn't exist, create it
-            			idToCache.put(cacheid, new Cache(cachesize));
-            		}
+
+                    idToCache.putIfAbsent(cacheid,  new Cache(cachesize));    //If this cache doesn't exist, create it
 
             		Cache c = idToCache.get(cacheid);						//Get the cache in question
                     c.endpoints.add(temp);                                  //Make this cache aware of what endpoint is connected to it
@@ -72,9 +71,12 @@ public class Util {
             	int reqs  = Integer.parseInt(reqLine[2]);
             	lines.remove(0);
 
-            	Endpoint ep = endpoints.get(epId);							//Get the ep that generates the req
-            	videos.get(vidId).requests.put(ep,reqs);					//Get the video and it's map, put the ep and the nr of requests
+            	Endpoint ep = endpoints.get(epId);
+
+            	//videos.get(vidId).requests.put(ep, reqs);
+            	videos.get(vidId).addRequests(ep, reqs);
             }
+
             System.out.println("Parse successfull!");
             return new World(nrofvideos,nrofendpoints,nrofcaches,cachesize,nrofrequests,endpoints,idToCache,videos);
 
