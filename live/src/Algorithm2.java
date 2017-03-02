@@ -78,7 +78,7 @@ public class Algorithm2 {
         for(Endpoint point : pair.vid.requests.keySet()) {                                  //Iterate over all endpoints requesting this video
             if(!coveredEndpoints.get(pair.vid).contains(point)) {                           //If this video isn't already covered for this endpoint
                 timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point);    //Then we could potentially save time, calculate the time
-                                                                                            // The time we could potentially save is the nr of requests
+                                                                                            //The time we could potentially save is the nr of requests
             }                                                                               //times the difference in time between datacenter and cache server
         }
         return (int)(timesaved / pair.vid.size);                                                                   //  All but trending_today runs better with => return timesaved * pair.vid.size
@@ -92,7 +92,7 @@ public class Algorithm2 {
             VidCachePair pair = new VidCachePair(vid, cache);                                   //Create a pair
             pair.score = calculateScore(pair);                                                  //Get the score for this pair. Will only get a score if it's not already covered.
             // Add !best.cache.videoFits(pair.vid) && pair.cache.videoFits(pair.vid) as a condition to increase the score of me_at_the_zoo and videos worth spreading
-            if(best == null ||  pair.score >= best.score && pair.cache.videoFits(pair.vid)) {    //If we have no pair or if the score of this is better than the one we got
+            if(best == null ||  !best.cache.videoFits(pair.vid) && pair.cache.videoFits(pair.vid) || pair.score >= best.score && pair.cache.videoFits(pair.vid)) {    //If we have no pair or if the score of this is better than the one we got
                 best = pair;                                                                    //Update the pair
             }
         }

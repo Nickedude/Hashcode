@@ -19,7 +19,7 @@ public class World {
 		caches = cs;
 		endpoints = es;
 		videos = vids;
-	}
+    }
 
 	public void printWorld () {
 		System.out.println(nrOfvideos);
@@ -40,4 +40,18 @@ public class World {
 		}
 		System.out.println("The end");
 	}
+
+	public int score () {
+	    int score = 0;
+        for (Video vid : videos ) {
+            for (Endpoint end :vid.requests.keySet()) {
+                for(Cache cache : end.cacheLatMap.keySet()) {
+                    if(cache.videos.contains(vid)) {
+                        score += cache.savedTime(end) * vid.requests.get(end);
+                    }
+                }
+            }
+        }
+        return score;
+    }
 }

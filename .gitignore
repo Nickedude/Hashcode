@@ -3,3 +3,5 @@ Practice/
 *.iml
 out/
 *.class
+*.txt
+*.out
