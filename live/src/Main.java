@@ -8,7 +8,8 @@ public class Main {
 		Util utilen = new Util();
 		World world = utilen.parseWorld(Paths.get(args[0]));
 		//world.printWorld();
-		Algorithm2 alg = new Algorithm2(world);
+		//Algorithm2 alg = new Algorithm2(world);
+		Algorithm3 alg = new Algorithm3(world);
 		alg.calculate();
 		alg.printFreeSpace();
 		utilen.printToFile(world,args[1]);

@@ -73,8 +73,9 @@ public class Util {
 
             	Endpoint ep = endpoints.get(epId);
 
+                ep.videos.add(videos.get(vidId));                                       //Note that the endpoint requests this video
             	//videos.get(vidId).requests.put(ep, reqs);
-            	videos.get(vidId).addRequests(ep, reqs);
+            	videos.get(vidId).addRequest(ep, reqs);
             }
 
             System.out.println("Parse successfull!");
