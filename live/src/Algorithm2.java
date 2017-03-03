@@ -27,7 +27,7 @@ public class Algorithm2 {
 
     public void calculate() {
         init();                                                                                                 //Initialize
-
+        System.out.println("Calculate Started");
         while (!queue.isEmpty()) {                                                                               //Continue until the queue is empty
             VidCachePair top = queue.poll(); //Take the pair with the best score
             VidCachePair best = getBestCachePair(top.vid);
@@ -45,7 +45,7 @@ public class Algorithm2 {
                 }
             }
             VidCachePair next = getBestCachePair(top.vid);                                                      //Pair this video with a new cache
-            if (next.score > 0 && next.cache.videoFits(next.vid)) {                                              //Add it to the queue if it gets a score and if it fits in the cache
+            if (next.cache.videoFits(next.vid) && !next.cache.videos.contains(next.vid) && next.score > 0) {                                              //Add it to the queue if it gets a score and if it fits in the cache
                 queue.add(next);                                                                                //!!!! we should probably check i getBestCachePair that the video fits, so all pairs are valid
             }
         }
@@ -55,6 +55,7 @@ public class Algorithm2 {
     // TODO: make more efficient so it can be used for all sets
     // O(V² * C * (E + log (v))
     public void calculate2 () {
+        System.out.println("Calculate2 Started");
         for (Video vid: world.videos ) {
             for (Cache cache: world.caches.values()) {
                 for (Video vid2 : world.videos) {
@@ -76,21 +77,23 @@ public class Algorithm2 {
     }
 
     public void calculate3 () {
-
-
-
-
+        System.out.println("Calculate3 Started");
         for(Cache cache : world.caches.values()) {
             if(cache.freeSpace > 0) {
+                queue = new PriorityQueue<>(comparator);
                 for(Endpoint end : cache.endpoints) {
-
-
-
                     for(Video vid : end.videos) {
-                        if(!cache.videos.contains(vid) && cache.videoFits(vid)) {
-                            cache.addVideo(vid);
-                            //vid.scores.put(cache, calculateScore(new VidCachePair(vid,cache)));
+                        if(cache.videoFits(vid)) {
+                            VidCachePair pair = new VidCachePair(vid, cache);
+                            pair.score = calculatePureScore(pair);
+                            queue.add(pair);
                         }
+                    }
+                }
+                while(queue.size() > 0) {
+                    VidCachePair top = queue.poll();
+                    if(!cache.videos.contains(top.vid) && cache.videoFits(top.vid)) {
+                        cache.addVideo(top.vid);
                     }
                 }
             }
@@ -107,16 +110,18 @@ public class Algorithm2 {
                                                                                             //The time we could potentially save is the nr of requests
             }                                                                               //times the difference in time between datacenter and cache server
         }
-        return (long) (timesaved * 1000000.0 / (pair.vid.size*1));
+        return (long) (timesaved * 1000000.0 / (pair.vid.size));
     }
 
-    private long calculatePureScore(Cache cache, Video vid) {
+    private long calculatePureScore(VidCachePair pair) {
         int timesaved = 0;
 
-        for(Endpoint point : vid.requests.keySet()) {
-                timesaved += vid.requests.get(point) * cache.savedTime(point);
+        for(Endpoint point : pair.vid.requests.keySet()) {
+
+            timesaved += pair.vid.requests.get(point) * pair.cache.savedTime(point) * point.cacheLatMap.getOrDefault(pair.cache, 0) / world.avgCacheLatency;
         }
-        return (long) (timesaved * 1000000.0 / (vid.size*1));
+
+        return (long) (timesaved * 1000000.0) ;
     }
 
     private VidCachePair getBestCachePair(Video vid) {
@@ -126,7 +131,7 @@ public class Algorithm2 {
             VidCachePair pair = new VidCachePair(vid, cache);                                   //Create a pair
             pair.score = calculateScore(pair);                                                  //Get the score for this pair. Will only get a score if it's not already covered.
             // Add !best.cache.videoFits(pair.vid) && pair.cache.videoFits(pair.vid) as a condition to increase the score of me_at_the_zoo and videos worth spreading
-            if(best == null ||  !best.cache.videoFits(pair.vid) && pair.cache.videoFits(pair.vid) || pair.score >= best.score && pair.cache.videoFits(pair.vid)) {    //If we have no pair or if the score of this is better than the one we got
+            if(best == null || !best.cache.videoFits(pair.vid) && pair.cache.videoFits(pair.vid) || pair.score >= best.score && pair.cache.videoFits(pair.vid)) {    //If we have no pair or if the score of this is better than the one we got
                 best = pair;                                                                    //Update the pair
             }
         }
