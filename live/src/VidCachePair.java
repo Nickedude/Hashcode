@@ -4,7 +4,7 @@
 public class VidCachePair {
     public Video vid;
     public Cache cache;
-    public int score = 0;
+    public long score = 0;
 
     public VidCachePair(Video vid, Cache cache) {
         this.cache = cache;

@@ -136,8 +136,8 @@ public class Algorithm3 {
             while(!vidsInCache.isEmpty()) {                                 //Iterate over all the videos, starting with the largest one
                 Video v = vidsInCache.poll();                               //Get the largest video
 
-                int oldscore = calculateOldScore(new VidCachePair(v,c));    //Score for old video
-                int altscore = 0;                                           //Score for the alternative
+                long oldscore = calculateOldScore(new VidCachePair(v,c));    //Score for old video
+                long altscore = 0;                                           //Score for the alternative
 
                 Video v1 = null;                                            //Potential replacements
                 Video v2 = null;
@@ -146,7 +146,7 @@ public class Algorithm3 {
 
                 while(!potScores1.isEmpty()) {
                     VidCachePair temp = potScores1.poll();                  //Get potential replacement video with highest score
-                    int v1score = temp.score;                               //Get it's score
+                    long v1score = temp.score;                               //Get it's score
                     v1 = temp.vid;                                          //Save reference to video
                     if((v.size)+(c.freeSpace) < v1.size) {                  //If it doesn't fit, throw it away
                         continue;
@@ -157,7 +157,7 @@ public class Algorithm3 {
 
                         while(!potScores2.isEmpty()) {
                             temp = potScores2.poll();                       //Get the one with highest score
-                            int v2score = temp.score;                       //Get score
+                            long v2score = temp.score;                       //Get score
                             v2 = temp.vid;                                  //Save ref to video
 
                             if((v.size)+(c.freeSpace) >= (v1.size + v2.size) && oldscore < (v1score + v2score)){    //If the replacements fit and if their combined score is higher we have a match
@@ -173,6 +173,7 @@ public class Algorithm3 {
                     }
 
                 }
+
 
                 if(altscore > oldscore) {
                     removeFromCache(v,c,epToVidInDc);   //Remove the old video from the cache
@@ -331,7 +332,13 @@ public class Algorithm3 {
     private class Distance implements Comparator<VidCachePair> {
         @Override
         public int compare(VidCachePair a, VidCachePair b) {
-            return b.score - a.score;
+            if(b.score > a.score){
+                return 1;
+            } else if(a.score > b.score) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -346,8 +353,13 @@ public class Algorithm3 {
     private class ByScore implements Comparator<VidCachePair> {
         @Override
         public int compare(VidCachePair a, VidCachePair b) {
-            return a.score - b.score;
+            if(b.score > a.score){
+                return 1;
+            } else if(a.score > b.score) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
-
 }

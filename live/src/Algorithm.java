@@ -78,7 +78,7 @@ public class Algorithm {
     private class Distance implements Comparator<VidCachePair> {
         @Override
         public int compare(VidCachePair a, VidCachePair b) {
-            return a.score - b.score;
+            return 0;//a.score - b.score;
         }
     }
 
