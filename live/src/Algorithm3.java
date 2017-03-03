@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class Algorithm3 {
-
+/*
     private World world;
 
     private HashMap<Video, HashSet<Endpoint>> coveredEndpoints = new HashMap<>();   //Holds which videos are available for wich endpoints in cahce
@@ -132,7 +132,7 @@ public class Algorithm3 {
             for(Video v : c.videos) {
                 vidsInCache.add(v);
             }
-
+/*
             while(!vidsInCache.isEmpty()) {                                 //Iterate over all the videos, starting with the largest one
                 Video v = vidsInCache.poll();                               //Get the largest video
 
@@ -173,6 +173,7 @@ public class Algorithm3 {
                     }
 
                 }
+
 
                 if(altscore > oldscore) {
                     removeFromCache(v,c,epToVidInDc);   //Remove the old video from the cache
@@ -349,5 +350,5 @@ public class Algorithm3 {
             return a.score - b.score;
         }
     }
-
+*/
 }

@@ -72,7 +72,7 @@ public class Algorithm2 {
         }
     }
 
-    private int calculateScore(VidCachePair pair) {
+    private long calculateScore(VidCachePair pair) {
         int timesaved = 0;
 
         for(Endpoint point : pair.vid.requests.keySet()) {                                  //Iterate over all endpoints requesting this video
@@ -81,7 +81,7 @@ public class Algorithm2 {
                                                                                             //The time we could potentially save is the nr of requests
             }                                                                               //times the difference in time between datacenter and cache server
         }
-        return (int)(timesaved / pair.vid.size);                                                                   //  All but trending_today runs better with => return timesaved * pair.vid.size
+        return (long) (timesaved * 1000000.0 / pair.vid.size);                                           //  All but trending_today runs better with => return timesaved * pair.vid.size
                                                                                             // but trending_today is MUCH worse.;
     }
 
@@ -110,7 +110,13 @@ public class Algorithm2 {
     private class Distance implements Comparator<VidCachePair> {
         @Override
         public int compare(VidCachePair a, VidCachePair b) {
-            return b.score - a.score;
+            if(b.score > a.score){
+                return 1;
+            } else if(a.score > b.score) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
 
