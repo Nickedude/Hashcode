@@ -11,7 +11,7 @@ public class VidCachePair {
         this.vid = vid;
     }
 
-    public void setScore(int score) {
+    public void setScore(long score) {
         this.score = score;
     }
 
