@@ -24,10 +24,11 @@ public class Parser {
             int startTime = scan.nextInt();
             int endTime = scan.nextInt();
 
-            rides.add(new Ride(startRow, startCol, endRow, endCol, startTime, endTime));
+            rides.add(new Ride(startRow, startCol, endRow, endCol, startTime, endTime, i));
         }
 
 
         return new World(T,timeBonus, vehicles, rides);
     }
+
 }

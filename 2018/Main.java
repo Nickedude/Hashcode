@@ -2,15 +2,13 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        String path = "in/";
-        String fileName = "a_example.in";
-        System.out.println("Starting file: " + fileName);
-        World world = null;
         try {
-            world = Parser.parse(new File(fileName));
+            String fileName = "a_example.in";
+            System.out.println("Starting file: " + fileName);
+            World world = Parser.parse(new File(fileName));
+            System.out.println("Finnished file: " + fileName);
+            Output.outputWorld(world, fileName);
         } catch (Exception e) {e.printStackTrace();}
-        System.out.println("Finnished file: " + fileName);
-
     }
 
 }
