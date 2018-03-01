@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 public class Output {
     public static void outputWorld(World world, String filename) throws IOException {
+
         FileWriter fileWriter = new FileWriter(filename + ".out");
         PrintWriter printWriter = new PrintWriter(fileWriter);
 
