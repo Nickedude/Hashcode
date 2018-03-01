@@ -1,3 +1,4 @@
+/*
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.stream.Collectors;
@@ -6,9 +7,8 @@ import java.io.*;
 
 
 public class Util {
-   
 
-   public World parseWorld(Path filepath) {
+    public World parseWorld(Path filepath) {
         try {
 
             List<String> lines = Files.lines(filepath, StandardCharsets.UTF_8).collect(Collectors.toList());
@@ -91,3 +91,4 @@ public class Util {
         }
     }
 }
+*/
