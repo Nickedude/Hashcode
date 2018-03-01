@@ -6,9 +6,11 @@ public class World {
 	int nrOfCaches;
 	int cacheCapacity;
 	int nrOfRequests;
+	double avgCacheLatency;
 	List<Endpoint> endpoints;
 	Map<Integer,Cache> caches;
 	List<Video> videos;
+
 
 	public World (int v, int e , int c, int cc, int rs, List<Endpoint> es, Map<Integer,Cache> cs, List<Video> vids) {
 		nrOfvideos = v;
@@ -19,6 +21,16 @@ public class World {
 		caches = cs;
 		endpoints = es;
 		videos = vids;
+
+		avgCacheLatency = 0;
+        int connections = 0;
+		for(Endpoint end : endpoints) {
+            for (int latency: end.cacheLatMap.values()) {
+                connections++;
+                avgCacheLatency += latency;
+            }
+        }
+        avgCacheLatency = avgCacheLatency / connections;
     }
 
 	public void printWorld () {
@@ -27,24 +39,21 @@ public class World {
 		System.out.println(nrOfCaches);
 		System.out.println(nrOfRequests);
 		System.out.println("Printing endpoints");
-		for(int i = 0; i < endpoints.size(); i++) {
-			System.out.println(endpoints.get(i).latDatacenter);
-		}
-		System.out.println("Printing videos");
-		for(int i = 0; i < videos.size(); i++) {
-			System.out.println(videos.get(i).id);
-		}
-		System.out.println("Printing caches");
-		for(Cache c : caches.values()) {
-			System.out.println(c.freeSpace);
-		}
+
+		endpoints.forEach(end -> System.out.println(end.latDatacenter));
+
+		videos.forEach(video -> System.out.println(video.id));
+
+        System.out.println("Printing caches");
+        caches.forEach((id, cache) -> System.out.println(cache.freeSpace));
+
 		System.out.println("The end");
 	}
 
-	public int score () {
-	    int score = 0;
+	public long score () {
+	    long score = 0;
         for (Video vid : videos ) {
-            for (Endpoint end :vid.requests.keySet()) {
+            for (Endpoint end : vid.requests.keySet()) {
                 for(Cache cache : end.cacheLatMap.keySet()) {
                     if(cache.videos.contains(vid)) {
                         score += cache.savedTime(end) * vid.requests.get(end);
@@ -52,6 +61,6 @@ public class World {
                 }
             }
         }
-        return score;
+        return (long)((score*1.0 / nrOfRequests) * 1000);
     }
 }

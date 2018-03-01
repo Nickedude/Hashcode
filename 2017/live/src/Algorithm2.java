@@ -51,7 +51,7 @@ public class Algorithm2 {
         }
     }
 
-    // Can only be used for me_at_the_zoo becouse it is so slow. The other input sets will not reacting in atleast 10 minutes.
+    // Can only be used for me_at_the_zoo because it is so slow. The other input sets will not reacting in atleast 10 minutes.
     // TODO: make more efficient so it can be used for all sets
     // O(V² * C * (E + log (v))
     public void calculate2 () {
