@@ -9,6 +9,8 @@ public class Main {
         try {
             world = Parser.parse(new File(fileName));
         } catch (Exception e) {e.printStackTrace();}
+        GreedyCar greedyCar = new GreedyCar(world);
+        world = greedyCar.compute();
         System.out.println("Finnished file: " + fileName);
 
     }
