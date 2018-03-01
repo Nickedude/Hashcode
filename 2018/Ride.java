@@ -15,4 +15,8 @@ public class Ride {
         startTime = st;
         finnishTime = ft;
     }
+
+    public int getDistance() {
+        return Math.abs(endRow - startRow) + Math.abs(endColumn - startColumn);
+    }
 }
