@@ -7,6 +7,8 @@ public class Ride {
     final int startTime;
     final int finnishTime;
     final int rideID;
+    final int distance;
+    boolean isAssigned = false;
 
     public Ride(int sr, int sc, int er, int ec, int st, int ft, int id) {
         startColumn = sc;
@@ -16,6 +18,7 @@ public class Ride {
         startTime = st;
         finnishTime = ft;
         rideID = id;
+        distance = getDistance();
     }
 
     public int getDistance() {

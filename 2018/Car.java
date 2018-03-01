@@ -57,6 +57,7 @@ public class Car {
         return getLastRide().endRow;
     }
 
+
     public int getDistanceFrom(int r, int c) {
         return Math.abs(getCurrentRow() - r) + Math.abs(getCurrentColumn() - c);
     }
@@ -70,6 +71,4 @@ public class Car {
     public int getTick() {
         return tick;
     }
-
-
 }
