@@ -17,4 +17,8 @@ public class Ride {
         finnishTime = ft;
         rideID = id;
     }
+
+    public int getDistance() {
+        return Math.abs(endRow - startRow) + Math.abs(endColumn - startColumn);
+    }
 }
