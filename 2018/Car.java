@@ -3,7 +3,6 @@ import java.util.List;
 
 public class Car {
 
-
     List<Ride> rides = new ArrayList<>();
     private int r = 0;
     private int c = 0;
@@ -71,4 +70,5 @@ public class Car {
     public int getTick() {
         return tick;
     }
+
 }
