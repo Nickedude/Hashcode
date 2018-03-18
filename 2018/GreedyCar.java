@@ -16,14 +16,14 @@ public class GreedyCar {
 
         @Override
         public int compare(Ride o1, Ride o2) {
-            /*int timeDiff = o1.startTime - o2.startTime;
+            int timeDiff = o1.startTime - o2.startTime;
 
-            if(timeDiff != 0) {
-                return timeDiff;
-            }*/
+            //if(timeDiff !=0) {
+            return timeDiff;
+            //}
 
-            int distDiff = o1.getDistance() - o2.getDistance();
-            return distDiff;
+            //int distDiff = o1.getDistance() - o2.getDistance();
+            //return distDiff;
 
 
         }
@@ -43,7 +43,7 @@ public class GreedyCar {
                 int timeDiff = ride.startTime - car.getTick();                          // Get the time it will take to travel to the start pos
                 int arrivalTick = car.getTick() + distance;                             // Calculate the arrival time
 
-                if((timeDiff < bestTimeDiff) && (arrivalTick <= ride.finnishTime)) {    // Select the closest car that will be there on time
+                if((timeDiff < bestTimeDiff) && (arrivalTick <= ride.startTime) && (arrivalTick+ride.getDistance() <= ride.finnishTime)) {    // Select the closest car that will be there on time
                     bestCar = car;
                 }
             }
@@ -52,6 +52,8 @@ public class GreedyCar {
                 continue;
             }
 
+            int dist = bestCar.getDistanceFrom(ride.startRow, ride.startColumn);
+            int distFromZ = ride.startRow + ride.startColumn;
             bestCar.addRide(ride);
             bestCar.travelTo(ride.startRow, ride.startColumn);
             bestCar.travelTo(ride.endRow, ride.endColumn);

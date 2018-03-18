@@ -71,4 +71,8 @@ public class Car {
         return tick;
     }
 
+    public void wait(int duration) {
+        tick += duration;
+    }
+
 }
